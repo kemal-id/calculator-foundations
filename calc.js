@@ -2,10 +2,8 @@ const display = document.querySelector(".display");
 const numberButtons = document.querySelector(".numbers");
 const operatorButtons = document.querySelector(".operator");
 
-let leftOperandInput;
-let operatorInput;
-let rightOperandInput;
 let displayed = "";
+display.innerText = 0;
 
 numberButtons.addEventListener("click", numbersButtonHandler);
 operatorButtons.addEventListener("click", operatorButtonHandler);
@@ -23,10 +21,23 @@ function numbersButtonHandler(e) {
 
 function operatorButtonHandler(e) {
   console.log(e);
+  if(e.target.innerText === "="){
+    let separated = separateDisplay(displayed);
+    let leftOperandInput = Number(separated[1]);
+    let rightOperandInput = Number(separated[2]);
+    let operatorInput = separated[0];
+    let result = operate(operatorInput, leftOperandInput, rightOperandInput);
+    updateDisplay(result, e.target.innerText);
+    console.log(result);
+    return;
+  }
+  if(displayed.includes(e.target.innerText)){
+    return;
+  }
   updateDisplay(e.target.innerText);
 }
 
-function operate(leftOperand, rightOperand, operator) {
+function operate(operator, leftOperand, rightOperand) {
   let result;
   switch (operator) {
     case "+":
@@ -63,11 +74,25 @@ function divide(a, b) {
   return a / b;
 }
 
-function updateDisplay(word) {
+function updateDisplay(word, equals = "") {
+  console.log(word);
+  if(equals === "="){
+    displayed = word;
+    display.textContent = displayed;
+    return;
+  }
   if (word === "C") {
     displayed = "";
   } else {
     displayed += word;
   }
   display.textContent = displayed;
+}
+
+function separateDisplay (string) {
+  let operator = string.search(/[-\/\+\*]/);
+  let separated = string.split(/[-\/\+\*]/);
+  separated.unshift(string.charAt(operator));
+  console.log(separated);
+  return separated;
 }
