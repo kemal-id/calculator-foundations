@@ -12,6 +12,7 @@ body {
 
 ul {
   display: flex;
+  gap: 1rem;
 }
 
 ul li {
@@ -20,11 +21,19 @@ ul li {
 
 ul li button {
   padding: 1rem;
-  margin: 0.5rem;
+  
+  /* margin: 0.5rem; */
+}
+
+.display-container {
+  width: 500px;
+  height: 100px;
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: end;
+  align-items: end;
 }
 
 .display {
-  width: 200px;
-  height: 100px;
-  background-color: antiquewhite;
+  background-color: aliceblue;
 }
