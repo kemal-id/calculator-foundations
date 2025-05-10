@@ -38,6 +38,10 @@ function operatorButtonHandler(e) {
     return;
   }
 
+  if(displayed === ""){
+    display.innerText = 0;
+  }
+
   let separated = separateDisplay();
   console.log(separated);
 
