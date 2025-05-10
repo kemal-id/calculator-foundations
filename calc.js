@@ -14,6 +14,9 @@ function numbersButtonHandler(e) {
   if (e.target.nodeName == "UL") {
     return;
   }
+  if (e.target.innerText === "0" && Number(displayed) === 0) {
+    return;
+  }
   if (e.target.innerText === "C") {
     displayed = "";
   }
@@ -22,12 +25,12 @@ function numbersButtonHandler(e) {
 
 function operatorButtonHandler(e) {
   console.log(e);
-  if (e.target.nodeName == "UL") {
+  if (e.target.nodeName == "UL" || displayed === "0") {
     return;
   }
   if (e.target.innerText === "=") {
     let separated = separateDisplay(displayed);
-    if(Number.isNaN(separated[2])){
+    if (Number.isNaN(separated[2])) {
       return;
     }
     let result = operate(separated[0], separated[1], separated[2]);
@@ -87,7 +90,7 @@ function updateDisplay(word, equals = "") {
   console.log(word);
   if (equals === "=") {
     if (!Number.isSafeInteger(word)) {
-      word = word.toFixed(5);
+      Math.round(word * 100000) / 100000;
       console.log(word);
     }
     displayed = Number(word);
