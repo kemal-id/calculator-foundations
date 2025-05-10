@@ -3,6 +3,7 @@ const numberButtons = document.querySelector(".numbers");
 const operatorButtons = document.querySelector(".operator");
 
 let displayed = "";
+let regex = /[\/\+\*-]/;
 display.innerText = 0;
 
 numberButtons.addEventListener("click", numbersButtonHandler);
@@ -21,17 +22,25 @@ function numbersButtonHandler(e) {
 
 function operatorButtonHandler(e) {
   console.log(e);
-  if(e.target.innerText === "="){
-    let separated = separateDisplay(displayed);
-    let leftOperandInput = Number(separated[1]);
-    let rightOperandInput = Number(separated[2]);
-    let operatorInput = separated[0];
-    let result = operate(operatorInput, leftOperandInput, rightOperandInput);
-    updateDisplay(result, e.target.innerText);
-    console.log(result);
+  if (e.target.nodeName == "UL") {
     return;
   }
-  if(displayed.includes(e.target.innerText)){
+  if (e.target.innerText === "=") {
+    let separated = separateDisplay(displayed);
+    if(Number.isNaN(separated[2])){
+      return;
+    }
+    let result = operate(separated[0], separated[1], separated[2]);
+    updateDisplay(result, "=");
+    displayed = "";
+    return;
+  }
+  if (displayed.toString().search(regex) !== -1) {
+    console.log(e.target.innerText);
+    let separated = separateDisplay(displayed);
+    let result = operate(separated[0], separated[1], separated[2]);
+    updateDisplay(result, "=");
+    updateDisplay(e.target.innerText);
     return;
   }
   updateDisplay(e.target.innerText);
@@ -76,8 +85,12 @@ function divide(a, b) {
 
 function updateDisplay(word, equals = "") {
   console.log(word);
-  if(equals === "="){
-    displayed = word;
+  if (equals === "=") {
+    if (!Number.isSafeInteger(word)) {
+      word = word.toFixed(5);
+      console.log(word);
+    }
+    displayed = Number(word);
     display.textContent = displayed;
     return;
   }
@@ -89,10 +102,13 @@ function updateDisplay(word, equals = "") {
   display.textContent = displayed;
 }
 
-function separateDisplay (string) {
-  let operator = string.search(/[-\/\+\*]/);
-  let separated = string.split(/[-\/\+\*]/);
+function separateDisplay() {
+  let string = displayed;
+  let operator = string.search(regex);
+  let separated = string.split(regex);
   separated.unshift(string.charAt(operator));
   console.log(separated);
+  separated[1] = Number(separated[1]);
+  separated[2] = Number(separated[2]);
   return separated;
 }
