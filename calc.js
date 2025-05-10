@@ -1,6 +1,7 @@
 const display = document.querySelector(".display");
 const numberButtons = document.querySelector(".numbers");
 const operatorButtons = document.querySelector(".operator");
+const clearanceButtons = document.querySelector(".clearance");
 
 let displayed = "";
 let regex = /[\/\+\*-]/; //regex targeting operators
@@ -8,17 +9,29 @@ display.innerText = 0;
 
 numberButtons.addEventListener("click", numbersButtonHandler);
 operatorButtons.addEventListener("click", operatorButtonHandler);
+clearanceButtons.addEventListener("click", clearanceButtonHandler);
+
+function clearanceButtonHandler(e) {
+  if (e.target.nodeName == "UL") {
+    return;
+  }
+
+  if (e.target.innerText === "C") {
+    displayed = "";
+  }
+
+  if (e.target.innerText === "del");
+  updateDisplay(e.target.innerText);
+}
 
 function numbersButtonHandler(e) {
   console.log(e);
   if (e.target.nodeName == "UL") {
     return;
   }
+
   if (e.target.innerText === "0" && Number(displayed) === 0) {
     return;
-  }
-  if (e.target.innerText === "C") {
-    displayed = "";
   }
 
   if (e.target.innerText === ".") {
@@ -29,6 +42,7 @@ function numbersButtonHandler(e) {
       return;
     }
   }
+
   updateDisplay(e.target.innerText);
 }
 
@@ -38,7 +52,7 @@ function operatorButtonHandler(e) {
     return;
   }
 
-  if(displayed === ""){
+  if (displayed === "") {
     display.innerText = 0;
   }
 
@@ -62,7 +76,7 @@ function operatorButtonHandler(e) {
     return;
   }
 
-  if(!separated[0] && !separated[1]) {
+  if (!separated[0] && !separated[1]) {
     return;
   }
 
@@ -118,9 +132,19 @@ function updateDisplay(word, equals = "") {
   }
   if (word === "C") {
     displayed = "";
+    return;
+  } else if (word === "del") {
+    console.log(displayed);
+    if (displayed.length === 1 || displayed === "") {
+      display.innerText = "0";
+      displayed = "";
+      return;
+    }
+    displayed = displayed.slice(0, displayed.length - 1);
   } else {
     displayed += word;
   }
+
   display.textContent = displayed;
 }
 
