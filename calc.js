@@ -2,6 +2,26 @@ const display = document.querySelector(".display");
 const numberButtons = document.querySelector("#number-buttons");
 const operatorButtons = document.querySelector(".operator");
 const clearanceButtons = document.querySelector(".clearance");
+const buttons = {
+  one: document.querySelector("#one"),
+  two: document.querySelector("#two"),
+  three: document.querySelector("#three"),
+  four: document.querySelector("#four"),
+  five: document.querySelector("#five"),
+  six: document.querySelector("#six"),
+  seven: document.querySelector("#seven"),
+  eight: document.querySelector("#eight"),
+  nine: document.querySelector("#nine"),
+  zero: document.querySelector("#zero"),
+  comma: document.querySelector("#comma"),
+  clear: document.querySelector("#clear"),
+  delete: document.querySelector("#delete"),
+  plus: document.querySelector("#plus"),
+  minus: document.querySelector("#subtract"), //somehow using key subtract returns null
+  multiply: document.querySelector("#multiply"),
+  divide: document.querySelector("#divide"),
+  equal: document.querySelector("#equal"),
+};
 
 let displayed = "";
 let regex = /[\/\+\*-]/; //regex targeting operators
@@ -14,62 +34,79 @@ clearanceButtons.addEventListener("click", clearanceButtonHandler);
 
 function keyboardButtonHandler(e) {
   const clickEvent = new Event("click", { bubbles: true });
-  console.log(`key=${e.key},code=${e.code}`);
-  console.log(e);
+
   switch (e.key) {
     case "1":
-      document.querySelector("#one").dispatchEvent(clickEvent);
+      buttons.one.dispatchEvent(clickEvent);
+      buttons.one.focus();
       break;
     case "2":
-      document.querySelector("#two").dispatchEvent(clickEvent);
+      buttons.two.dispatchEvent(clickEvent);
+      buttons.two.focus();
       break;
     case "3":
-      document.querySelector("#three").dispatchEvent(clickEvent);
+      buttons.three.dispatchEvent(clickEvent);
+      buttons.three.focus();
       break;
     case "4":
-      document.querySelector("#four").dispatchEvent(clickEvent);
+      buttons.four.dispatchEvent(clickEvent);
+      buttons.four.focus();
       break;
     case "5":
-      document.querySelector("#five").dispatchEvent(clickEvent);
+      buttons.five.dispatchEvent(clickEvent);
+      buttons.five.focus();
       break;
     case "6":
-      document.querySelector("#six").dispatchEvent(clickEvent);
+      buttons.six.dispatchEvent(clickEvent);
+      buttons.six.focus();
       break;
     case "7":
-      document.querySelector("#seven").dispatchEvent(clickEvent);
+      buttons.seven.dispatchEvent(clickEvent);
+      buttons.seven.focus();
       break;
     case "8":
-      document.querySelector("#eight").dispatchEvent(clickEvent);
+      buttons.eight.dispatchEvent(clickEvent);
+      buttons.eight.focus();
       break;
     case "9":
-      document.querySelector("#nine").dispatchEvent(clickEvent);
+      buttons.nine.dispatchEvent(clickEvent);
+      buttons.nine.focus();
       break;
     case "0":
-      document.querySelector("#zero").dispatchEvent(clickEvent);
+      buttons.zero.dispatchEvent(clickEvent);
+      buttons.zero.focus();
       break;
     case ".":
-      document.querySelector("#comma").dispatchEvent(clickEvent);
+      buttons.comma.dispatchEvent(clickEvent);
+      buttons.comma.focus();
       break;
     case "c":
-      document.querySelector("#clear").dispatchEvent(clickEvent);
+      buttons.clear.dispatchEvent(clickEvent);
+      buttons.clear.focus();
       break;
     case "Backspace":
-      document.querySelector("#delete").dispatchEvent(clickEvent);
+      buttons.delete.dispatchEvent(clickEvent);
+      buttons.delete.focus();
       break;
     case "+":
-      document.querySelector("#plus").dispatchEvent(clickEvent);
+      buttons.plus.dispatchEvent(clickEvent);
+      buttons.plus.focus();
       break;
     case "-":
-      document.querySelector("#subtract").dispatchEvent(clickEvent);
+      buttons.minus.dispatchEvent(clickEvent);
+      buttons.minus.focus();
       break;
     case "*":
-      document.querySelector("#multiply").dispatchEvent(clickEvent);
+      buttons.multiply.dispatchEvent(clickEvent);
+      buttons.multiply.focus();
       break;
     case "/":
-      document.querySelector("#divide").dispatchEvent(clickEvent);
+      buttons.divide.dispatchEvent(clickEvent);
+      buttons.divide.focus();
       break;
     case "=":
-      document.querySelector("#equal").dispatchEvent(clickEvent);
+      buttons.equal.dispatchEvent(clickEvent);
+      buttons.equal.focus();
       break;
     default:
       return;
@@ -77,15 +114,11 @@ function keyboardButtonHandler(e) {
 }
 
 function clearanceButtonHandler(e) {
+  console.log(e);
   if (e.target.nodeName == "UL") {
     return;
   }
 
-  if (e.target.innerText === "C") {
-    displayed = "";
-  }
-
-  if (e.target.innerText === "del");
   updateDisplay(e.target.innerText);
 }
 
@@ -197,6 +230,7 @@ function updateDisplay(word, equals = "") {
   }
   if (word === "C") {
     displayed = "";
+    display.textContent = "0";
     return;
   } else if (word === "del") {
     console.log(displayed);
