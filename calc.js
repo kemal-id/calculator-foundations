@@ -114,7 +114,6 @@ function keyboardButtonHandler(e) {
 }
 
 function clearanceButtonHandler(e) {
-  console.log(e);
   if (e.target.nodeName == "UL") {
     return;
   }
@@ -123,7 +122,6 @@ function clearanceButtonHandler(e) {
 }
 
 function numbersButtonHandler(e) {
-  console.log(e);
   if (e.target.nodeName == "UL") {
     return;
   }
@@ -135,7 +133,6 @@ function numbersButtonHandler(e) {
   if (e.target.innerText === ".") {
     let separated = separateDisplay();
     let isDecimal = decimalHandler(separated);
-    console.log(isDecimal);
     if (isDecimal) {
       return;
     }
@@ -145,7 +142,6 @@ function numbersButtonHandler(e) {
 }
 
 function operatorButtonHandler(e) {
-  console.log(e);
   if (e.target.nodeName == "UL" || displayed === "0") {
     return;
   }
@@ -155,10 +151,12 @@ function operatorButtonHandler(e) {
   }
 
   let separated = separateDisplay();
-  console.log(separated);
 
   if (separated[0] === regex) {
-    console.log(separated[0]);
+    return;
+  }
+  
+  if (!separated[0] && !separated[1]) {
     return;
   }
 
@@ -174,18 +172,11 @@ function operatorButtonHandler(e) {
     return;
   }
 
-  if (!separated[0] && !separated[1]) {
-    return;
-  }
-
-  if (displayed.search(regex) !== -1) {
-    // to apply multiple operators before equals
-    console.log(displayed === "");
-    console.log(displayed === "0");
+  if (displayed.search(regex) !== -1) { // to apply multiple operators before equals
     if (displayed === "" || displayed === "0") {
       return;
     }
-    console.log(e.target.innerText);
+
     if (separated[2]) {
       let result = operate(separated[0], separated[1], separated[2]);
       updateDisplay(result, "=");
@@ -218,11 +209,9 @@ function operate(operator, leftOperand, rightOperand) {
 }
 
 function updateDisplay(word, equals = "") {
-  console.log(word);
   if (equals === "=") {
     if (!Number.isSafeInteger(word)) {
       word = Math.round(word * 100000) / 100000; //limiting decimal places to 5
-      console.log(word);
     }
     displayed = Number(word);
     display.textContent = displayed;
@@ -233,7 +222,6 @@ function updateDisplay(word, equals = "") {
     display.textContent = "0";
     return;
   } else if (word === "del") {
-    console.log(displayed);
     if (displayed.length === 1 || displayed === "") {
       display.innerText = "0";
       displayed = "";
@@ -247,18 +235,15 @@ function updateDisplay(word, equals = "") {
   display.textContent = displayed;
 }
 
-function separateDisplay() {
+function separateDisplay() { //to make array of displayed strings.
   let string = displayed;
   let operator = string.search(regex);
   let separated = string.split(regex);
   separated.unshift(string.charAt(operator));
-  console.log(separated);
-  // separated[1] = Number(separated[1]);
-  // separated[2] = Number(separated[2]);
   return separated;
 }
 
-function decimalHandler(array) {
+function decimalHandler(array) { //felt a bit too long so I made its own func
   let isFirstDecimal = array[1].includes(".");
   let isSecondDecimal;
   let isOperatorInputted = array[0] !== "";
