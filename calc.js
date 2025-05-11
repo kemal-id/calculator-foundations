@@ -253,17 +253,17 @@ function separateDisplay() {
   let separated = string.split(regex);
   separated.unshift(string.charAt(operator));
   console.log(separated);
-  separated[1] = Number(separated[1]);
-  separated[2] = Number(separated[2]);
+  // separated[1] = Number(separated[1]);
+  // separated[2] = Number(separated[2]);
   return separated;
 }
 
 function decimalHandler(array) {
-  let isFirstDecimal = Number.isSafeInteger(array[1]);
+  let isFirstDecimal = array[1].includes(".");
   let isSecondDecimal;
   let isOperatorInputted = array[0] !== "";
   if (array[2]) {
-    isSecondDecimal = !Number.isSafeInteger(array[2]);
+    isSecondDecimal = array[2].includes(".");
     if (isSecondDecimal) {
       return true;
     } else {
@@ -272,9 +272,9 @@ function decimalHandler(array) {
   }
 
   if (isFirstDecimal && !isOperatorInputted) {
-    return false;
-  } else {
     return true;
+  } else {
+    return false;
   }
 }
 
