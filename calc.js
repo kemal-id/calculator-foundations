@@ -1,5 +1,5 @@
 const display = document.querySelector(".display");
-const numberButtons = document.querySelector(".numbers");
+const numberButtons = document.querySelector("#number-buttons");
 const operatorButtons = document.querySelector(".operator");
 const clearanceButtons = document.querySelector(".clearance");
 
@@ -8,8 +8,73 @@ let regex = /[\/\+\*-]/; //regex targeting operators
 display.innerText = 0;
 
 numberButtons.addEventListener("click", numbersButtonHandler);
+window.addEventListener("keydown", keyboardButtonHandler);
 operatorButtons.addEventListener("click", operatorButtonHandler);
 clearanceButtons.addEventListener("click", clearanceButtonHandler);
+
+function keyboardButtonHandler(e) {
+  const clickEvent = new Event("click", { bubbles: true });
+  console.log(`key=${e.key},code=${e.code}`);
+  console.log(e);
+  switch (e.key) {
+    case "1":
+      document.querySelector("#one").dispatchEvent(clickEvent);
+      break;
+    case "2":
+      document.querySelector("#two").dispatchEvent(clickEvent);
+      break;
+    case "3":
+      document.querySelector("#three").dispatchEvent(clickEvent);
+      break;
+    case "4":
+      document.querySelector("#four").dispatchEvent(clickEvent);
+      break;
+    case "5":
+      document.querySelector("#five").dispatchEvent(clickEvent);
+      break;
+    case "6":
+      document.querySelector("#six").dispatchEvent(clickEvent);
+      break;
+    case "7":
+      document.querySelector("#seven").dispatchEvent(clickEvent);
+      break;
+    case "8":
+      document.querySelector("#eight").dispatchEvent(clickEvent);
+      break;
+    case "9":
+      document.querySelector("#nine").dispatchEvent(clickEvent);
+      break;
+    case "0":
+      document.querySelector("#zero").dispatchEvent(clickEvent);
+      break;
+    case ".":
+      document.querySelector("#comma").dispatchEvent(clickEvent);
+      break;
+    case "c":
+      document.querySelector("#clear").dispatchEvent(clickEvent);
+      break;
+    case "Backspace":
+      document.querySelector("#delete").dispatchEvent(clickEvent);
+      break;
+    case "+":
+      document.querySelector("#plus").dispatchEvent(clickEvent);
+      break;
+    case "-":
+      document.querySelector("#subtract").dispatchEvent(clickEvent);
+      break;
+    case "*":
+      document.querySelector("#multiply").dispatchEvent(clickEvent);
+      break;
+    case "/":
+      document.querySelector("#divide").dispatchEvent(clickEvent);
+      break;
+    case "=":
+      document.querySelector("#equal").dispatchEvent(clickEvent);
+      break;
+    default:
+      return;
+  }
+}
 
 function clearanceButtonHandler(e) {
   if (e.target.nodeName == "UL") {
